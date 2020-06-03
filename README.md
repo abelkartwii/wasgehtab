@@ -1,2 +1,2 @@
 # wasgehtab
-text mining program in R
+a text analysis of WhatsApp data
