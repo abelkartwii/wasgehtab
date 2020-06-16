@@ -7,42 +7,37 @@ library("tidytext")
 library("reshape2")
 library("stopwords")
 
-chat <- rwa_read(file.choose())
+chatlog <- rwa_read(file.choose())
+#prompts user to choose a textfile
 
-remove <- c((stopwords),
+trash <- c((stopwords),
                "media",
                "weggelassen",
-               "bild",
                "i'm",
                "im",
                "ur",
-               "1",
-               "2",
-               "3",
-               "4",
-               "im",
                "i'll",
                "audio",
                "video",
-               "ab",
                "gif")
+#removes common english words + whatsapp terminology
 
-remove.indo <- c((stopwords),
+trash.indo <- c((stopwords),
                    "tp",
                    "dia",
                    "gua",
                    "dan"
                    )
+#removes common indonesian words
 
-chat_clean <- chat %>%
+chats <- chatlog %>%
   unnest_tokens(word, text) %>%
   anti_join(stop_words)
 
-chat_clean <- chat_clean %>%
-  na.omit(chat_clean)
-
-chat_clean <- chat_clean %>%
-  filter(!word %in% to_remove)
+chats <- chats %>%
+  na.omit(chats)
+  filter(!word %in% trash, trash.indo)
+#removes na values + words in trash, trash.indo
 
 chat %>%
   mutate(day = date(time)) %>%
@@ -51,3 +46,4 @@ chat %>%
   geom_bar(stat = "identity", fill = "#52854C") +
   ylab("") + xlab("") +
   ggtitle("Messages per day")
+#displays plot for messages per day
