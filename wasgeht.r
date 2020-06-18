@@ -1,12 +1,5 @@
-library("tidyr")
-library("dplyr")
-library("ggplot2"); #theme_set(theme_minimal())
-library("lubridate")
-library("rwhatsapp")
-library("tidytext")
-library("reshape2")
-library("stopwords")
-library("ggimage")
+install.packages(c("tidyr","dplyr","ggplot2","lubridate","rwhatsapp","tidytxt","stopwords","ggimage"))
+library(c("tidyr","dplyr","ggplot2","lubridate","rwhatsapp","tidytxt","stopwords","ggimage"))
 
 chatlog <- rwa_read(file.choose())
 #prompts user to choose a textfile
