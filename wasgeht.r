@@ -7,7 +7,6 @@ library("tidytext")
 library("reshape2")
 library("stopwords")
 library("ggimage")
-library("wordcloud")
 
 chatlog <- rwa_read(file.choose())
 #prompts user to choose a textfile
@@ -19,6 +18,7 @@ trash <- c((stopwords),
            "im",
            "ur",
            "i'll",
+           "1","2","3","4",
            "audio",
            "video",
            "gif")
@@ -53,10 +53,10 @@ chats %>%
 
 #---- messages per week ----
 chats <- chats %>%
-  mutate(week.format = wday(as.Date(chats$time), 
-         label = TRUE, 
-         week_start = getOption("lubridate.week.start", 1))
-        )
+  mutate(week.format = 
+           wday(as.Date(chats$time), 
+           label = TRUE, 
+           week_start = getOption("lubridate.week.start", 1)))
   
 weeks <- chats %>% 
   group_by(week.format) %>% 
@@ -69,6 +69,7 @@ weeks <- chats %>%
   geom_bar(stat = "identity")+
   xlab("Days of the week")+
   ylab("Messages")+
+  theme(legend.position="none")+
   coord_flip()+
   ggtitle("Days most active")
 
@@ -98,9 +99,7 @@ ggplot(hourz, aes(
 chats %>%
   mutate(day = date(time)) %>%
   count(author) %>%
-  ggplot(aes(
-     x = reorder(author, n), 
-     y = n)) +
+  ggplot(aes(x = reorder(author, n), y = n)) +
   geom_bar(stat = "identity", fill = "#52854C") +
   ylab("") + xlab("") +
   coord_flip() +
@@ -128,7 +127,9 @@ chats %>%
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank())
 
-#__________________________________________ Wordcloud ______________________________________________
+#---- wordcloud ----
+
+library(wordcloud)
 
 chats%>%
   count(word) %>%
