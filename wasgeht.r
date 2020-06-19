@@ -1,11 +1,13 @@
 install.packages(c("tidyr","dplyr","ggplot2","lubridate","rwhatsapp","tidytxt","stopwords","ggimage"))
 library(c("tidyr","dplyr","ggplot2","lubridate","rwhatsapp","tidytxt","stopwords","ggimage"))
 
+
 chatlog <- rwa_read(file.choose())
 #prompts user to choose a textfile
 
 trash <- c((stopwords),
            "media",
+           "bild",
            "weggelassen",
            "i'm",
            "im",
@@ -85,7 +87,7 @@ ggplot(hourz, aes(
   geom_bar(stat = "identity") +
   xlab("time of day") +
   ylab("total messages") +
-  ggtitle("Days most active")
+  ggtitle("Hours most active")
 
 
 #---- total amount of messages sent per person----
@@ -121,15 +123,14 @@ chats %>%
         axis.ticks.y = element_blank())
 
 #---- wordcloud ----
-
 library(wordcloud)
 
 chats%>%
   count(word) %>%
   with(wordcloud(
     word, n, 
-    colors = c("#D55E00", "#009E73"), 
+    colors = c("#EF767A", "#FFE347","#7D7ABC","#6457A6","#F2B5D4"), 
     scale=c(3,0.5), 
-    max.words = 100)
+    max.words = 125)
     )
 
