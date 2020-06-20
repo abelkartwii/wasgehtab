@@ -1,9 +1,11 @@
 install.packages(c("tidyr","dplyr","ggplot2","lubridate","rwhatsapp","tidytxt","stopwords","ggimage"))
 library(c("tidyr","dplyr","ggplot2","lubridate","rwhatsapp","tidytxt","stopwords","ggimage"))
 
-
 chatlog <- rwa_read(file.choose())
 #prompts user to choose a textfile
+
+name1 <- readline(prompt="What is your display name on Whatsapp?")
+name2 <- readline(prompt="what is your friend's display name?")
 
 trash <- c((stopwords),
            "media",
@@ -46,6 +48,8 @@ chats %>%
   ylab("") + xlab("") +
   ggtitle("Messages per day")
 
+ggsave("whatsapp_textsperday.png")
+
 #---- messages per week ----
 chats <- chats %>%
   mutate(week.format = 
@@ -67,6 +71,8 @@ weeks <- chats %>%
   theme(legend.position="none")+
   coord_flip()+
   ggtitle("Days most active")
+  
+ggsave("whatsapp_textsperday2.png")
 
 #---- time most active, GMT+7 ----
 chats <- chats %>%
@@ -89,6 +95,7 @@ ggplot(hourz, aes(
   ylab("total messages") +
   ggtitle("Hours most active")
 
+ggsave("whatsapp_textsperhour.png")
 
 #---- total amount of messages sent per person----
 chats %>%
@@ -98,7 +105,9 @@ chats %>%
   geom_bar(stat = "identity", fill = "#52854C") +
   ylab("") + xlab("") +
   coord_flip() +
-  ggtitle("Number of messages")
+  ggtitle("Number of messages per person")
+
+ggsave("whatsapp_textsperperson.png")
 
 #---- 6 most used emojis ----
 emoji.url <- rwhatsapp::emojis %>% # data built into package
@@ -122,6 +131,8 @@ chats %>%
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank())
 
+ggsave("whatsapp_emojisperperson.png")
+
 #---- wordcloud ----
 library(wordcloud)
 
@@ -131,6 +142,5 @@ chats%>%
     word, n, 
     colors = c("#EF767A", "#FFE347","#7D7ABC","#6457A6","#F2B5D4"), 
     scale=c(3,0.5), 
-    max.words = 125)
+    max.words = 150)
     )
-
