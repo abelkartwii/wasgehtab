@@ -1,2 +1,2 @@
 # wasgehtab
-a text analysis of WhatsApp data
+an R script to visualize and plot WhatsApp data using ggplot2 and wordcloud. Works best in RStudio.
